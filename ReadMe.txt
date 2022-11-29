@@ -1,10 +1,12 @@
 # README
 
 ## Requirements
+
 ubuntu >= 18.04  
 python >= 3.6
 
 ## Run
+
 under project root directory:
 ```shell
 cd src/
@@ -12,6 +14,7 @@ bash run.sh
 ```
 
 ## Code Tree
+
 ```shell
 ├── data  # input unsorted array 
 │   ├── random-30k.txt
