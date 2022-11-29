@@ -51,3 +51,4 @@ if __name__ == '__main__':
 
     T2 = time.time()
     print('[QuickSort] running time: %s s' %(T2 - T1))
+    save_number(data, "../out/order4.txt")

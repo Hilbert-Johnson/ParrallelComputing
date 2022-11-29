@@ -55,3 +55,4 @@ if __name__ == "__main__":
     data_sorted = merge_sort_parallel(data)
     T2 = time.time()
     print('[MergeSort] running time: %s s' %(T2 - T1))
+    save_number(data_sorted, "../out/order5.txt")

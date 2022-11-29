@@ -39,3 +39,4 @@ if __name__=='__main__':
 
     T2 = time.time()
     print('[EnumSort] running time: %s s' %(T2 - T1))
+    save_number(ret, "../out/order6.txt")

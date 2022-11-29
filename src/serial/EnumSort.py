@@ -26,3 +26,4 @@ if __name__=='__main__':
     data = enumSort(data)
     T2 = time.time()
     print('[EnumSort] running time: %s s' %(T2 - T1))
+    save_number(data, "../out/order3.txt")

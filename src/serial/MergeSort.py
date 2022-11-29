@@ -47,3 +47,4 @@ if __name__=='__main__':
     mergeSort(data, 0, size-1)
     T2 = time.time()
     print('[MergeSort] running time: %s s' %(T2 - T1))
+    save_number(data, "../out/order2.txt")

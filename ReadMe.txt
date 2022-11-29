@@ -2,7 +2,7 @@
 
 ## Requirements
 
-ubuntu >= 18.04  
+ubuntu >= 18.04
 python >= 3.6
 
 ## Run
