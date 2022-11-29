@@ -1,77 +1,57 @@
 import sys 
 sys.path.append("..") 
 from common import *
-import time
-from multiprocessing import Manager
+import multiprocessing
+import random, time, math
 
 
-def merge_sort_multiple(results, array):
-  results.append(merge_sort(array))
+def merge(*args):
+    left, right = args[0] if len(args) == 1 else args
+    left_length, right_length = len(left), len(right)
+    left_index, right_index = 0, 0
+    merged = []
+    while left_index < left_length and right_index < right_length:
+        if left[left_index] <= right[right_index]:
+            merged.append(left[left_index])
+            left_index += 1
+        else:
+            merged.append(right[right_index])
+            right_index += 1
+    if left_index == left_length:
+        merged.extend(right[right_index:])
+    else:
+        merged.extend(left[left_index:])
+    return merged
 
-def merge_multiple(results, array_part_left, array_part_right):
-  results.append(merge(array_part_left, array_part_right))
 
-def merge_sort(array):
-    array_length = len(array)
-
-    if array_length <= 1:
-        return array
-
-    middle_index = int(array_length / 2)
-    left = array[0:middle_index]
-    right = array[middle_index:]
-    left = merge_sort(left)
-    right = merge_sort(right)
+def merge_sort(data):
+    length = len(data)
+    if length <= 1:
+        return data
+    middle = length // 2
+    left = merge_sort(data[:middle])
+    right = merge_sort(data[middle:])
     return merge(left, right)
 
-def merge(left, right):
-    sorted_list = []
 
-    left = left[:]
-    right = right[:]
-
-    while len(left) > 0 or len(right) > 0:
-        if len(left) > 0 and len(right) > 0:
-            if left[0] <= right[0]:
-                sorted_list.append(left.pop(0))
-            else:
-                sorted_list.append(right.pop(0))
-        elif len(left) > 0:
-            sorted_list.append(left.pop(0))
-        elif len(right) > 0:
-            sorted_list.append(right.pop(0))
-    return sorted_list
-
-def parallel_merge_sort(array, process_count):
-    step = int(len(array) / process_count)
-    manager = Manager()
-    results = manager.list()
-
-    with process_pool(process_count) as pool:
-        for n in range(process_count):
-            if n < process_count - 1:
-                chunk = array[n * step:(n + 1) * step]
-            else:
-                chunk = array[n * step:]
-            pool.apply_async(merge_sort_multiple, (results, chunk))
-
-    while len(results) > 1:
-        with process_pool(process_count) as pool:
-            pool.apply_async(merge_multiple, (results, results.pop(0), results.pop(0)))
-
-    final_sorted_list = results[0]
-    return final_sorted_list
+def merge_sort_parallel(data):
+    processes = multiprocessing.cpu_count()
+    pool = multiprocessing.Pool(processes)
+    size = int(math.ceil(float(len(data)) / processes))
+    data = [data[i * size:(i + 1) * size] for i in range(processes)]
+    data = pool.map(merge_sort, data)
+    while len(data) > 1:
+        extra = data.pop() if len(data) % 2 == 1 else None
+        data = [(data[i], data[i + 1]) for i in range(0, len(data), 2)]
+        data = pool.map(merge, data) + ([extra] if extra else [])
+    return data[0]
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     data = read_number(datapath[int(sys.argv[1])])
-    worker = int(sys.argv[2])
-    size = len(data)
-    T1 = time.time()
-
+    worker = multiprocessing.cpu_count()
     print("[MergeSort] create {} process".format(worker))
-
-    parallel_merge_sort(data, worker)
-
+    T1 = time.time()
+    data_sorted = merge_sort_parallel(data)
     T2 = time.time()
     print('[MergeSort] running time: %s s' %(T2 - T1))
