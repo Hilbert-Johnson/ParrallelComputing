@@ -45,10 +45,14 @@ if __name__ == '__main__':
 
     worker = int(sys.argv[2])
     print("[QuickSort] create {} process".format(worker))
+
     pconn, cconn = Pipe()
+
     p = Process(target=quicksortParallel, args=(data, cconn, worker))
     p.start()
+
     data = pconn.recv()
+
     p.join()
 
     T2 = time.time()
