@@ -16,6 +16,14 @@ def save_number(data, filename):
         string = ' '.join(data)
         f.write(string)
 
+def test_sort(raw_data, sorted_data):
+    raw_data.sort()
+    if raw_data == sorted_data:
+        print("sort algorithm runs right!")
+    else:
+        print("sort algorithm runs wrong!")
+        assert(0)
+
 @contextmanager
 def process_pool(size):
     pool = Pool(size)
@@ -24,5 +32,5 @@ def process_pool(size):
     pool.join()
 
 if __name__=='__main__':
-    num = read_number(datapath)
-    save_number(num, 'tmp.txt')
+    test_sort([5,1,-1,1,0,3],[-1,0,1,1,3,5])
+    test_sort([5,1,-1,1,0,3],[-1,0,0,1,3,5])
