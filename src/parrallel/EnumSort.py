@@ -4,6 +4,7 @@ from common import *
 import time
 from multiprocessing import Manager, Pool, Queue
 
+
 def enumParallel(q, array , i):
     count = 0
     size = len(ret)

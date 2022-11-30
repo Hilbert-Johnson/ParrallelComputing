@@ -10,7 +10,7 @@ matplotlib == 3.4.2
 
 under project root directory:
 ```shell
-cd src/
+cd src
 bash run.sh
 ```
 
