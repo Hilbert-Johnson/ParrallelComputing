@@ -2,8 +2,9 @@
 
 ## Requirements
 
-ubuntu >= 18.04
-python >= 3.6
+ubuntu == 20.04
+python == 3.7.10
+matplotlib == 3.4.2
 
 ## Run
 
@@ -37,8 +38,9 @@ bash run.sh
     │   ├── EnumSort.py
     │   ├── MergeSort.py
     │   └── QuickSort.py
-    ├── utils  # generate random array and save in {root}/data/
-    |   └── generate.py
+    ├── utils  # misc function
+    |   ├── analyse.py  # plot running time
+    |   └── generate.py  # generate random array and save in {root}/data/
     ├── common.py  # common utility functions used by all algorithm
     ├── run.sh  # run test demo
 ```
